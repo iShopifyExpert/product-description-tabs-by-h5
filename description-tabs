@@ -1,0 +1,33 @@
+<div class="description-tabs">
+   {% assign descriptionparts = product.description | split: '<h5>' %}
+   <ul class="tabs">{% for description in descriptionparts %}{% assign numbers = forloop.index0 %}{% if description contains '</h5>' %}{% assign partsheading = description | split: '</h5>'  %}{% else %}{% assign partsheading = 'Description' %}{% endif %}
+        <li><a href="#tab-{{numbers}}"{% if numbers == 1 %} class="active"{% endif %}>{% if description contains '</h5>' %}{{partsheading[0] | capitalize }}{% else %}{{partsheading}}{% endif %}</a></li>{% endfor %}
+   </ul>
+            
+   {% for description in descriptionparts %}{% assign numbers = forloop.index0 %}{% if description contains '</h5>' %}{% assign partscontent = description | split: '</h5>' %}{% else %}{% assign partscontent = product.description | split: '<h5>' %}{% endif %}
+   <div id="tab-{{numbers}}" class="product-single__description rte" itemprop="description">
+       {% if description contains '</h5>' %}{{ partscontent[1] }}{% else %}{{ partscontent[0] }}{% endif %}
+   </div>{% endfor %}
+</div>
+
+<script>
+$(document).ready(function() {
+    $('.description-tabs ul.tabs').each(function(){
+      var active, content, links = $(this).find('a');
+      active = links.first().addClass('active');
+      content = $(active.attr('href'));
+      links.not(':first').each(function () {
+        $($(this).attr('href')).hide();
+      });
+      $(this).find('a').click(function(e){
+        active.removeClass('active');
+        content.hide();
+        active = $(this);
+        content = $($(this).attr('href'));
+        active.addClass('active');
+        content.show();
+        return false;
+      });
+    });
+  });
+</script>
