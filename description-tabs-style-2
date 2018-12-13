@@ -117,4 +117,19 @@ ul.tabs:before, ul.tabs:after {
 ul.tabs:after {
   clear: both;
 }
+@media screen and (max-width: 767px) {
+  ul.tabs li {
+    width: 100%;
+  }
+  ul.tabs li a.active {
+    background: none repeat scroll 0 0 #000000;
+  }
+  ul.tabs li a.active:after {
+    content: '';
+    border-top: 8px solid #000000;
+  }
+  .description-tabs {
+    margin: 0 10px;
+  }
+}
 </style>
