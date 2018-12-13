@@ -1,0 +1,217 @@
+<div class="description-tabs hide-mobile">
+   {% assign descriptionparts = product.description | split: '<h5>' %}
+   <ul class="tabs">{% for description in descriptionparts %}{% assign numbers = forloop.index0 %}{% if numbers > 0 %}{% if description contains '</h5>' %}{% assign partsheading = description | split: '</h5>'  %}{% else %}{% assign partsheading = 'Description' %}{% endif %}
+      <li><a href="#tab-{{numbers}}"{% if numbers == 1 %} class="active"{% endif %}>{% if description contains '</h5>' %}{{partsheading[0] | capitalize | remove:':' }}{% else %}{{partsheading}}{% endif %}</a></li>{% endif %}{% endfor %}
+      <li><a href="#tab-reviews" class="">Reviews</a></li>
+   </ul>
+            
+   {% for description in descriptionparts %}{% assign numbers = forloop.index0 %}{% if numbers > 0 %}{% if description contains '</h5>' %}{% assign partscontent = description | split: '</h5>' %}{% else %}{% assign partscontent = product.description | split: '<h5>' %}{% endif %}
+   <div id="tab-{{numbers}}" class="product-single__description rte" itemprop="description">
+       {% if description contains '</h5>' %}{{ partscontent[1] }}{% else %}{{ partscontent[0] }}{% endif %}
+   </div>{% endif %}{% endfor %}
+  
+  {% if settings.product_ratings_reviews %}
+  <div id="tab-reviews" class="product-single__description rte" itemprop="description">
+    <div class="product-section--content product-reviews--content" data-product-reviews>
+      <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+<div class="description-tabs so-accordion-wrapper hide-desktop">
+  {% assign descriptionparts = product.description | split: '<h5>' %}
+  {% for description in descriptionparts %}{% assign numbers = forloop.index0 %}{% if numbers > 0 %}{% if description contains '</h5>' %}{% assign partsheading = description | split: '</h5>'  %}{% else %}{% assign partsheading = 'Overview' %}{% endif %}
+  <p class="accordion">{% if description contains '</h5>' %}{{partsheading[0] | capitalize }}{% else %}{{partsheading}}{% endif %}</p>{% endif %}{% assign numbers = forloop.index0 %}{% if description contains '</h5>' %}{% assign partscontent = description | split: '</h5>' %}{% else %}{% assign partscontent = product.description | split: '<h5>' %}{% endif %}  
+  <div class="panel"> 
+    {% if description contains '</h5>' %}{{ partscontent[1] }}{% else %}{{ partscontent[0] }}{% endif %}
+  </div>{% endfor %}
+</div>
+<style>
+ul.tabs {
+  border-bottom: 1px solid #ddd;
+  display: block;
+  margin: 0 0 20px;
+  padding: 0;
+}
+ul.tabs li {
+  display: block;
+  float: left;
+  margin-bottom: 0;
+  padding: 0;
+  width: auto;
+}
+ul.tabs li a {
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background: none repeat scroll 0 0 #00b2e3;
+  border-color: #fff !important;
+  border-style: solid;
+  border-width: 1px 1px 0 1px;
+  display: block;
+  font-size: 13px;
+  line-height: 30px;
+  margin: 0;
+  padding: 4px 20px;
+  text-decoration: none;
+  width: auto;
+  text-transform: uppercase;
+  color: #fff !important;
+  border-bottom:none !important;
+}
+ul.tabs li a.active {
+  background: none repeat scroll 0 0 #00b2e3;
+  border-left-width: 1px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  color: #fff;
+  margin: 0;
+  position: relative;
+}
+ul.tabs li a.active:after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: -8px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 8px solid #00b1e3;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    -o-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+ul.tabs li:first-child a.active {
+  margin-left: 0;
+}
+ul.tabs li:first-child a {
+  border-top-left-radius: 2px;
+  border-width: 1px 1px 0;
+}
+ul.tabs li:last-child a {
+  border-top-right-radius: 2px;
+}
+ul.tabs:before, ul.tabs:after {
+  content: " ";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+}
+ul.tabs:after {
+  clear: both;
+}
+.rte .tabs li:not(:first-child) {
+    margin-left: 0;
+}
+@media screen and (max-width: 767px) {
+  ul.tabs li {
+    width: 100%;
+  }
+  ul.tabs li a.active {
+    background: none repeat scroll 0 0 #000000;
+  }
+  ul.tabs li a.active:after {
+    content: '';
+    border-top: 8px solid #000000;
+  }
+  .description-tabs {
+    margin: 0 10px;
+  }
+  .hide-mobile{display:none;}
+}
+@media screen and (min-width: 768px) {
+ .hide-desktop{display:none;}
+}
+p.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 10px 15px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    line-height: 25px;
+    outline: none;
+    transition: 0.4s;
+    margin: 5px 7px;
+    text-transform: capitalize;
+}
+
+p.accordion.active, p.accordion:hover {
+    background-color: #ddd;
+}
+
+p.accordion:after {
+    content: '\2795'; 
+    font-size: 13px;
+    color: #3370e8!important;
+    float: right;
+    margin-left: 5px;
+}
+p.accordion.active:after {
+    content: "\2796"; 
+    color: #3370e8!important;
+}
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.4s ease-in-out;
+    opacity: 0;
+    display:none;
+    margin-bottom:10px;
+}
+.panel.show {
+    opacity: 1;
+    display:block!important;
+    max-height: 3500px;
+}
+</style>
+<script>
+$(document).ready(function() {
+    $('.description-tabs ul.tabs').each(function(){
+      var active, content, links = $(this).find('a');
+      active = links.first().addClass('active');
+      content = $(active.attr('href'));
+      links.not(':first').each(function () {
+        $($(this).attr('href')).hide();
+      });
+      $(this).find('a').click(function(e){
+        active.removeClass('active');
+        content.hide();
+        active = $(this);
+        content = $($(this).attr('href'));
+        active.addClass('active');
+        content.show();
+        return false;
+      });
+    });
+  });
+  document.addEventListener("DOMContentLoaded", function(event) {
+    var acc = document.getElementsByClassName("accordion");
+    var panel = document.getElementsByClassName('panel');
+    for (var i = 0; i < acc.length; i++) {
+      acc[i].onclick = function() {
+        var setClasses = !this.classList.contains('active');
+        setClass(acc, 'active', 'remove');
+        setClass(panel, 'show', 'remove');
+        if (setClasses) {
+          this.classList.toggle("active");
+          this.nextElementSibling.classList.toggle("show");
+        }
+      }
+    }
+    function setClass(els, className, fnName) {
+      for (var i = 0; i < els.length; i++) {
+        els[i].classList[fnName](className);
+      }
+    }
+  });
+</script>
