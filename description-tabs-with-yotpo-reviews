@@ -53,6 +53,8 @@ $(document).ready(function() {
         if(window.outerWidth < 768) {
           $('.panel.mob-cont-reviews').addClass('show');
           $('html,body').animate({ scrollTop: $("#mob-cont-reviews").offset().top }, 'slow');
+        }else {
+          $('html,body').animate({ scrollTop: $("#tab-reviews").offset().top }, 'slow');
         }
         return false;
       });
