@@ -16,14 +16,14 @@
   </div>
   {% endif %}
 </div>
-<div class="description-tabs so-accordion-wrapper hide-desktop" id="mob-cont-reviews">
+<div class="description-tabs so-accordion-wrapper hide-desktop">
   {% assign descriptionparts = product.description | split: '<h5>' %}
   {% for description in descriptionparts %}{% assign numbers = forloop.index0 %}{% if numbers > 0 %}{% if description contains '</h5>' %}{% assign partsheading = description | split: '</h5>'  %}{% else %}{% assign partsheading = 'Overview' %}{% endif %}
   <p class="accordion">{% if description contains '</h5>' %}{{partsheading[0] | capitalize | remove:':' }}{% else %}{{partsheading}}{% endif %}</p>{% endif %}{% assign numbers = forloop.index0 %}{% if description contains '</h5>' %}{% assign partscontent = description | split: '</h5>' %}{% else %}{% assign partscontent = product.description | split: '<h5>' %}{% endif %}  
   <div class="panel">
     {% if description contains '</h5>' %}{{ partscontent[1] }}{% else %}{{ partscontent[0] }}{% endif %}
   </div>{% endfor %}
-  <p class="accordion mob-tab-reviews">Reviews</p>
+  <p class="accordion mob-tab-reviews" id="mob-cont-reviews">Reviews</p>
   <div class="panel mob-cont-reviews"><div class="yotpo yotpo-main-widget"data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}"></div></div>
 </div>
 <script>
@@ -50,7 +50,7 @@ $(document).ready(function() {
         content.hide();
         $('ul.tabs li a[href="#tab-reviews"], .accordion.mob-tab-reviews').addClass('active');
         $('#tab-reviews').show();
-        if(window.outerWidth > 425) {
+        if(window.outerWidth < 768) {
           $('.panel.mob-cont-reviews').addClass('show');
           $('html,body').animate({ scrollTop: $("#mob-cont-reviews").offset().top }, 'slow');
         }
