@@ -42,6 +42,7 @@ $(document).ready(function() {
         content = $($(this).attr('href'));
         active.addClass('active');
         content.show();
+        if (active.data("tab") == 'reviews') { }else{ $('ul.tabs li a[href="#tab-reviews"]').removeClass('active');$('#tab-reviews').hide();}
         return false;
       });
       $('.yotpo.bottomLine').click(function(e){
