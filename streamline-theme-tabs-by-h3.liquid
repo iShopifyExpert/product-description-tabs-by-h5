@@ -1,0 +1,12 @@
+<div class="collapsibles-wrapper collapsibles-wrapper--tabs small--text-center">{% assign descriptionparts = product.description | split: '<h3>' %}{% for description in descriptionparts %}{% assign numbers = forloop.index0 %}{% if description contains '</h3>' %}{% assign partsheading = description | split: '</h3>'  %}{% else %}{% assign partsheading = 'Description' %}{% endif %}
+  <button type="button" class="label collapsible-trigger collapsible-trigger--tab{% if numbers == 0 %} collapsible--auto-height is-open{% endif %}" data-id="{{ section_id }}" aria-controls="Product-{% if description contains '</h3>' %}{{ partsheading[0] | remove: '<strong>' | remove: '</strong>' | handle }}{% else %}{{partsheading | remove: '<strong>' | remove: '</strong>' | handle }}{% endif %}-{{ section_id }}" aria-expanded="true">
+    {% if description contains '</h3>' %}{{partsheading[0] | remove: '<strong>' | remove: '</strong>' | capitalize }}{% else %}{{partsheading}}{% endif %}
+  </button>{% endfor %}
+  <div class="collapsibles-content-wrapper">{% for description in descriptionparts %}{% assign numbers = forloop.index0 %}{% if description contains '</h3>' %}{% assign partsheading = description | split: '</h3>'  %}{% assign partscontent = description | split: '</h3>' %}{% else %}{% assign partsheading = 'Description' %}{% assign partscontent = product.description | split: '<h3>' %}{% endif %}
+    <div id="Product-{% if description contains '</h3>' %}{{ partsheading[0] | remove: '<strong>' | remove: '</strong>' | handle }}{% else %}{{partsheading | remove: '<strong>' | remove: '</strong>' | handle }}{% endif %}-{{ section_id }}" class="collapsible-content collapsible-content--all{% if numbers == 0 %} is-open{% endif %}"{% if numbers == 0 %} style="height: auto;"{% endif %}>
+      <div class="collapsible-content__inner rte">
+        {% if description contains '</h3>' %}{{ partscontent[1] }}{% else %}{{ partscontent[0] }}{% endif %}
+      </div>
+    </div>{% endfor %}
+  </div>
+</div>
